@@ -1,23 +1,30 @@
 
 from flask import Flask, render_template
+import os
+
+IMG_FOLDER = os.path.join('static', 'img')
 
 ## Initialize the app in main file
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = IMG_FOLDER
 
 ## Home web page
 @app.route('/')
 def home():
-    return render_template('home.html')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("home.html", user_image = full_filename)
 
 ## Pagina About
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("about.html", user_image = full_filename)
 
-## Pagina About
+## Pagina Login
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("login.html", user_image = full_filename)
 
 ## Initialize server
 if __name__ == '__main__':
