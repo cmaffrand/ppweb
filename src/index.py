@@ -10,21 +10,39 @@ app.config['UPLOAD_FOLDER'] = IMG_FOLDER
 
 ## Home web page
 @app.route('/')
+def main():
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("home.html", user_image = filename_logo)
+
+## Home web page
+@app.route('/home')
 def home():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
-    return render_template("home.html", user_image = full_filename)
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("home.html", user_image = filename_logo)
 
 ## Pagina About
 @app.route('/about')
 def about():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
-    return render_template("about.html", user_image = full_filename)
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("about.html", user_image = filename_logo)
+
+## Pagina Pronosticos
+@app.route('/pronostics')
+def pronostics():
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("pronostics.html", user_image = filename_logo)
+
+## Pagina Resultados Detallados
+@app.route('/details')
+def results():
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("details.html", user_image = filename_logo)
 
 ## Pagina Login
 @app.route('/login')
 def login():
-    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
-    return render_template("login.html", user_image = full_filename)
+    filename_logo = os.path.join(app.config['UPLOAD_FOLDER'], 'layeta.svg')
+    return render_template("login.html", user_image = filename_logo)
 
 ## Initialize server
 if __name__ == '__main__':
