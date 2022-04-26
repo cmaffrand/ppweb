@@ -9,5 +9,5 @@ WORKDIR /app
 RUN pip3 install -r requirements.txt
 COPY . /app
 
-CMD ["gunicorn", "-w 4", "-b", "0.0.0.0:8000", "index:app"]
+CMD ["gunicorn", "-w 4", "-b", "0.0.0.0:8000", "main:app"]
 
