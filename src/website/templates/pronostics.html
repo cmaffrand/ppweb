@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block content %}
+
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" align="center">
+    <div class="carousel-item active">
+      <!-- BASIC PRONOSTICS -->
+      <div class="container-fluid p-5 text-white bg-dark rounded-3">
+        <h2>Tus Pronosticos</h2>
+        <p>Lista de ultimos pronosticos del usuario</p>
+        <a href="/pronostics">
+          <button class="btn btn-secondary" type="button">Pronosticar</button>
+        </a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <!-- BASIC RESULTS -->
+      <div class="container-fluid p-5 text-white bg-dark rounded-3">
+        <h2>Tabla de posiciones</h2>
+        <p>Tabla de posiciones con el <b>usuario resaltado.</b></p>
+        <a href="/results">
+          <button class="btn btn-secondary" type="button">
+          Resultados Detallados
+          </button>
+        </a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <!-- NEXT GAMES -->
+      <div class="container-fluid p-5 text-white bg-dark rounded-3">
+        <h2>Proximos partidos</h2>
+        <p>Proximos 5 Partidos de Qatar 2022</p>
+        <a href="https://www.fifa.com/tournaments/mens/worldcup/qatar2022/match-center" target="_blank">
+          <button class="btn btn-secondary" type="button">
+            FIFA World Cup 2022
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- PRONOSTICAR DETALLADO -->
+<div class="container-fluid p-5 text-white bg-dark rounded-3">
+  <h2>Nuevos Pronosticos</h2>
+  <p>Hacer nuevos pronosticos</p>
+</div>
+<div class="container-fluid p-5 text-white bg-dark rounded-3">
+  <h2>Mis Pronosticos</h2>
+  <p>Ver pronosticos viejos</p>
+</div>
+
+  <!-- USER INFORMATION -->
+  <div class="container-fluid p-5 text-white bg-dark rounded-3">
+    <h2>Usuario</h2>
+    <p>Información del usuario</p>
+    <a href="/logout">
+      <button class="btn btn-secondary" type="button">
+        Logout
+      </button>
+    </a>
+  </div>
+{% endblock %}

@@ -18,6 +18,9 @@ The webpage is developed using flask over python.
 [Heroku](https://dashboard.heroku.com/apps)
 [Heroku Cli](https://devcenter.heroku.com/articles/heroku-cli)
 [gunivorn](https://gunicorn.org)
+[Werkzeug](https://werkzeug.palletsprojects.com/en/2.1.x/installation/)
+[Flask-login](https://flask-login.readthedocs.io/en/latest/#installation)
+[Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#installation)
 
 ## Authors
 

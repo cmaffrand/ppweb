@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block content %}
+  <body class="text-center">
+    <img
+      src="{{ logo_image }}"
+      alt=""
+      width="300"
+      height="300"
+    />
+    <main class="form-signin">
+      <form method="POST">
+        <h3 align="left">Login</h3>
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter Email Address"
+          />
+        </div>
+        <div class="form-group" align="left">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter Password"
+          />
+        </div>
+        <br />
+        <button type="submit" class="w-100 btn btn-dark" >Login</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+      </form>
+    </main>
+  </body>
+{% endblock %}
