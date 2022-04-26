@@ -22,6 +22,26 @@ The webpage is developed using flask over python.
 [Flask-login](https://flask-login.readthedocs.io/en/latest/#installation)
 [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#installation)
 
+## Docker
+
+Open shell and type this code into the command line.
+First create docker container by doing:
+
+```
+cd src
+docker build -t ppweb:latest .
+```
+
+Then run the container:
+
+```
+docker-compose up -d
+```
+
+You can view the webpage in your URL bar:
+
+http://localhost:8000
+
 ## Authors
 
 Contributor's names and contact info:
