@@ -19,6 +19,26 @@ The webpage is developed using flask over python.
 [Heroku Cli](https://devcenter.heroku.com/articles/heroku-cli)
 [gunivorn](https://gunicorn.org)
 
+## Docker
+
+Open shell and type this code into the command line.
+First create docker container by doing:
+
+```
+cd src
+docker build -t ppweb:latest .
+```
+
+Then run the container:
+
+```
+docker-compose up -d
+```
+
+You can view the webpage in your URL bar:
+
+http://localhost:8000
+
 ## Authors
 
 Contributor's names and contact info:
