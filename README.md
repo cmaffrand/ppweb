@@ -4,10 +4,6 @@ A Python prode webpage for Qatar WorldCup 2022
 
 ## Description
 
-## Architecture
-
-## Testing
-
 ## Dependencies
 
 The webpage is developed using flask over python. 
@@ -25,6 +21,7 @@ The webpage is developed using flask over python.
 ## Docker
 
 Open shell and type this code into the command line.
+IMPORTANT: Docker commands should be runed as a sudo.
 First create docker container by doing:
 
 ```
@@ -41,12 +38,6 @@ docker-compose up -d
 You can view the webpage in your URL bar:
 
 http://localhost:8000
-
-## Authors
-
-Contributor's names and contact info:
-
-Eng. Carlos Maffrand  [@cmaffrand](https://www.linkedin.com/in/carlos-maffrand-3ab3b340/)
 
 ## Version History
 
