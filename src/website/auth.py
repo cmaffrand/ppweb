@@ -10,22 +10,32 @@ from datetime import datetime
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 auth = Blueprint('auth', __name__)
-FIXTURE_PATH = 'website/static/info/fixture.csv'
+FIXTURE_GROUPS_PATH = 'website/static/info/fixture_groups.csv'
+USERS_PATH = 'website/static/info/users.csv'
 
 def init_db():
+    i = 1
     # Initialize database Users
-    new_user = User(email='carlosmaffrand5@gmail.com', first_name='Carlos', password=generate_password_hash(
-                'password1', method='sha256'))
-    db.session.add(new_user)
-    db.session.commit()    
-    
-    # Init DB Fixture
-    with open(FIXTURE_PATH) as fixture_csv:
-        file = csv.reader(fixture_csv, delimiter=',')
-        for row in file:
-            fixture = Fixture(gameid=int(row[0]), group=row[1], team1=row[2], team2=row[3], date=datetime.strptime(row[4],'%y/%m/%d %H:%M:%S'),user_id=1)
-            db.session.add(fixture)
-            db.session.commit()    
+    with open(USERS_PATH) as users_csv:
+        users_file = csv.reader(users_csv, delimiter=',')
+        for row in users_file:
+            new_user = User(email=row[0], 
+                            first_name=row[1], 
+                            password=row[2])
+            db.session.add(new_user)
+            # Init DB Fixture
+            with open(FIXTURE_GROUPS_PATH) as fixture_csv:
+                file = csv.reader(fixture_csv, delimiter=',')
+                for fixrow in file:
+                    fixture = Fixture(gameid=int(fixrow[0]), 
+                                      group=fixrow[1], 
+                                      team1=fixrow[2], 
+                                      team2=fixrow[3], 
+                                      date=datetime.strptime(fixrow[4],'%y/%m/%d %H:%M:%S'),
+                                      user_id=i)
+                    db.session.add(fixture)
+            i = i + 1
+        db.session.commit()  
     return True
 
 # Login page
