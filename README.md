@@ -9,7 +9,7 @@ A Python prode webpage for Qatar WorldCup 2022
 The webpage is developed using flask over python. 
 
 [Flask](https://flask.palletsprojects.com/en/2.1.x/)
-[bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
+[bootstrap](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
 [uiGradients](https://uigradients.com)
 [Heroku](https://dashboard.heroku.com/apps)
 [Heroku Cli](https://devcenter.heroku.com/articles/heroku-cli)
