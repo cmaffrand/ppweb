@@ -10,8 +10,8 @@
     <div class="carousel-item active">
       <!-- BASIC PRONOSTICS -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Tus Pronosticos</h2>
-        <p>Lista de ultimos pronosticos del usuario</p>
+        <h2>Your Pronostics</h2>
+        <p>Last pronstics made by the user</p>
         <a href="/pronostics">
           <button class="btn btn-secondary" type="button">Pronosticar</button>
         </a>
@@ -20,11 +20,11 @@
     <div class="carousel-item">
       <!-- BASIC RESULTS -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Tabla de posiciones</h2>
-        <p>Tabla de posiciones con el <b>usuario resaltado.</b></p>
+        <h2>Scoreboard</h2>
+        <p>Scores with <b>user</b></p>
         <a href="/results">
           <button class="btn btn-secondary" type="button">
-          Resultados Detallados
+          Results Details
           </button>
         </a>
       </div>
@@ -32,8 +32,8 @@
     <div class="carousel-item">
       <!-- NEXT GAMES -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Proximos partidos</h2>
-        <p>Proximos 5 Partidos de Qatar 2022</p>
+        <h2>Next Games</h2>
+        <p>Next 5 Qatar 2022 games</p>
         <a href="https://www.fifa.com/tournaments/mens/worldcup/qatar2022/match-center" target="_blank">
           <button class="btn btn-secondary" type="button">
             FIFA World Cup 2022
@@ -54,22 +54,129 @@
 
 <!-- PRONOSTICAR DETALLADO -->
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h2>Nuevos Pronosticos</h2>
-  <p>Hacer nuevos pronosticos</p>
-</div>
+  <h1 align="center">New Pronostics</h1>
+  
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Pronostic</th>
+          <th scope="col"></th>
+          <th scope="col">Limit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for games in user.fixtures %}
+          {% if games.date > time %}
+            <tr>
+            <th scope="row" style="text-align:center" style="vertical-align:middle">{{ games.gameid }}</th>    
+            <td>
+              <form class="form-inline" method="POST">
+                <input type="hidden" name="gameid" value="{{ games.gameid }}">
+                <div class="form-group col-md-3">
+                  <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{ games.team1 }}</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <select name="team1goals" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                    <option selected>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                  </select>   
+                </div>
+
+                <div class="form-group col-md-3">
+                  <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{ games.team2 }}</label>
+                </div>
+                <div class="form-group col-md-2">
+                  <select name="team2goals" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                    <option selected>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                  </select>  
+                </div>
+                <div class="form-group col-md-2">
+                  <button type="submit" class="btn btn-secondary">Save</button>
+                </div>
+              </form>
+            </td>
+            <td style="text-align:center" style="vertical-align:middle">
+              {% for prodes in user.prodes %}
+                {% if games.gameid == prodes.gameid %}
+                  <i class="fa fa-thumbs-up" style="color:#1e6316"></i></td>
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            <td style="text-align:center" style="vertical-align:middle">{{ games.date.strftime('%d/%m %H') }} Hs.</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h2>Mis Pronosticos</h2>
-  <p>Ver pronosticos viejos</p>
+  <h1 align="center">Your Pronostics</h1>
+  <ul class="list-group list-group-flush text-white bg-dark" id="notes">
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Game</th>
+          <th scope="col">Home</th>
+          <th scope="col">Away</th>
+          <th scope="col">Advances</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for games in user.fixtures %}
+          {% for prodes in user.prodes %}
+            {% if games.gameid == prodes.gameid %}
+              <tr>
+                <th scope="row">{{ prodes.gameid }}</th>
+                <td>{{ games.team1 }} {{ prodes.team1goals }} </td>
+                <td>{{ games.team2 }} {{ prodes.team2goals }} </td>
+                <td>{{ prodes.teamadvance }} </td>
+                <td>{{ prodes.date.strftime('%d/%m %H:%s')}} Hs.</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </ul>
 </div>
 
   <!-- USER INFORMATION -->
   <div class="container-fluid p-5 text-white bg-dark rounded-3">
-    <h2>Usuario</h2>
-    <p>Información del usuario</p>
-    <a href="/logout">
-      <button class="btn btn-secondary" type="button">
-        Logout
-      </button>
-    </a>
+    <div class="row">
+      <div class="col-sm">
+        <a href="/pronostics">
+          <button class="btn btn-secondary" type="button">
+            Top
+          </button>
+        </a>
+      </div>
+      <div class="col-sm">
+        <a href="/logout">
+          <button class="btn btn-secondary" type="button">
+            Logout
+          </button>
+        </a>
+      </div>
+    </div>
   </div>
+
 {% endblock %}
