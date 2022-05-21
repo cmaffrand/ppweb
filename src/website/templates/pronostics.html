@@ -146,10 +146,26 @@
             {% if games.gameid == prodes.gameid %}
               <tr>
                 <th scope="row">{{ prodes.gameid }}</th>
-                <td>{{ games.team1 }} {{ prodes.team1goals }} </td>
-                <td>{{ games.team2 }} {{ prodes.team2goals }} </td>
+                <td>
+                  <div class="row">
+                    <div class="form-group col-md-8">
+                      {{ games.team1 }} 
+                    </div>
+                    <div class="form-group col-md-2">
+                      {{ prodes.team1goals }} </td>
+                    </div>
+                  </div>
+                <td>
+                  <div class="row">
+                    <div class="form-group col-md-8">
+                      {{ games.team2 }} 
+                    </div>
+                    <div class="form-group col-md-2">
+                      {{ prodes.team2goals }} </td>
+                    </div>
+                  </div>
                 <td>{{ prodes.teamadvance }} </td>
-                <td>{{ prodes.date.strftime('%d/%m %H:%s')}} Hs.</td>
+                <td>{{ prodes.date.strftime('%d/%m %H:%M')}} Hs.</td>
               </tr>
             {% endif %}
           {% endfor %}
