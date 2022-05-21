@@ -10,8 +10,8 @@
     <div class="carousel-item active">
       <!-- BASIC PRONOSTICS -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Tus Pronosticos</h2>
-        <p>Lista de ultimos pronosticos del usuario</p>
+        <h2>Your Pronostics</h2>
+        <p>Last pronostics made by the user</p>
         <a href="/pronostics">
           <button class="btn btn-secondary" type="button">Pronosticar</button>
         </a>
@@ -20,11 +20,11 @@
     <div class="carousel-item">
       <!-- BASIC RESULTS -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Tabla de posiciones</h2>
-        <p>Tabla de posiciones con el <b>usuario resaltado.</b></p>
+        <h2>Scoreboard</h2>
+        <p>Scores with <b>user</b>.</p>
         <a href="/results">
           <button class="btn btn-secondary" type="button">
-          Resultados Detallados
+          Results Details
           </button>
         </a>
       </div>
@@ -32,8 +32,8 @@
     <div class="carousel-item">
       <!-- NEXT GAMES -->
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
-        <h2>Proximos partidos</h2>
-        <p>Proximos 5 Partidos de Qatar 2022</p>
+        <h2>Next games</h2>
+        <p>Next 5 Qatar 2022 games</p>
         <a href="https://www.fifa.com/tournaments/mens/worldcup/qatar2022/match-center" target="_blank">
           <button class="btn btn-secondary" type="button">
             FIFA World Cup 2022
@@ -54,7 +54,7 @@
 
 <!-- NOTES FOR PRODE BARDO -->
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h1 align="center">Mensajes</h1>
+  <h1 align="center">Menssages</h1>
   <ul class="list-group list-group-flush text-white bg-dark" id="notes">
     {% for note in user.notes %}
       <li class="list-group-item text-dark bg-ligth">
@@ -71,20 +71,29 @@
     <textarea name="note" id="note" class="form-control"></textarea>
     <br />
     <div align="center">
-      <button type="submit" class="btn btn-secondary">Agregar Mensaje</button>
+      <button type="submit" class="btn btn-secondary">Add Menssage</button>
     </div>
   </form>
 </div>
 
   <!-- USER INFORMATION -->
   <div class="container-fluid p-5 text-white bg-dark rounded-3">
-    <h2>Usuario</h2>
-    <p>Información del usuario</p>
-    <a href="/logout">
-      <button class="btn btn-secondary" type="button">
-        Logout
-      </button>
-    </a>
+    <div class="row">
+      <div class="col-sm">
+        <a href="/">
+          <button class="btn btn-secondary" type="button">
+            Top
+          </button>
+        </a>
+      </div>
+      <div class="col-sm">
+        <a href="/logout">
+          <button class="btn btn-secondary" type="button">
+            Logout
+          </button>
+        </a>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
