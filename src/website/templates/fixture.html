@@ -2,7 +2,11 @@
 
 <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
-    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li
+      data-target="#carouselExampleCaptions"
+      data-slide-to="0"
+      class="active"
+    ></li>
     <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
     <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
   </ol>
@@ -24,7 +28,7 @@
         <p>Scores with <b>user</b>.</p>
         <a href="/results">
           <button class="btn btn-secondary" type="button">
-          Results Details
+            Results Details
           </button>
         </a>
       </div>
@@ -34,7 +38,10 @@
       <div class="container-fluid p-5 text-white bg-dark rounded-3">
         <h2>Next games</h2>
         <p>Nest 5 Qatar 2022 games</p>
-        <a href="https://www.fifa.com/tournaments/mens/worldcup/qatar2022/match-center" target="_blank">
+        <a
+          href="https://www.fifa.com/tournaments/mens/worldcup/qatar2022/match-center"
+          target="_blank"
+        >
           <button class="btn btn-secondary" type="button">
             FIFA World Cup 2022
           </button>
@@ -42,11 +49,21 @@
       </div>
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+  <a
+    class="carousel-control-prev"
+    href="#carouselExampleCaptions"
+    role="button"
+    data-slide="prev"
+  >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+  <a
+    class="carousel-control-next"
+    href="#carouselExampleCaptions"
+    role="button"
+    data-slide="next"
+  >
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
@@ -67,36 +84,32 @@
       </thead>
       <tbody>
         {% for games in user.fixtures %}
-          <tr>
-            <th scope="row">{{ games.gameid }}</th>
-            <td>{{ games.team1 }}</td>
-            <td>{{ games.team2 }}</td>
-            <td>{{ games.date.strftime('%d/%m %H')}} Hs.</td>
-          </tr>
+        <tr>
+          <th scope="row">{{ games.gameid }}</th>
+          <td>{{ games.team1 }}</td>
+          <td>{{ games.team2 }}</td>
+          <td>{{ games.date.strftime('%d/%m %H')}} Hs.</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
   </ul>
 </div>
 
-  <!-- USER INFORMATION -->
-  <div class="container-fluid p-5 text-white bg-dark rounded-3">
-    <div class="row">
-      <div class="col-sm">
-        <a href="/fixture">
-          <button class="btn btn-secondary" type="button">
-            Top
-          </button>
-        </a>
-      </div>
-      <div class="col-sm">
-        <a href="/logout">
-          <button class="btn btn-secondary" type="button">
-            Logout
-          </button>
-        </a>
-      </div>
+<!-- USER INFORMATION -->
+<div class="container-fluid p-5 text-white bg-dark rounded-3">
+  <div class="row">
+    <div class="col-sm">
+      <a href="/fixture">
+        <button class="btn btn-secondary" type="button">Top</button>
+      </a>
+    </div>
+    <div class="col-sm">
+      <a href="/logout">
+        <button class="btn btn-secondary" type="button">Logout</button>
+      </a>
     </div>
   </div>
+</div>
 
 {% endblock %}

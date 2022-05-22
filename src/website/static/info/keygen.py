@@ -8,7 +8,7 @@ OUPUT_USERS_PATH = 'users.csv'
 with open(INPUT_USERS_PATH) as users_csv:
     users_file = csv.reader(users_csv, delimiter=',')
     i = 0
-    email= []
+    email = []
     name = []
     passw = []
     for row in users_file:
@@ -20,5 +20,3 @@ with open(INPUT_USERS_PATH) as users_csv:
         writer = csv.writer(csvfile, delimiter=',')
         for i in range(len(email)):
             writer.writerow([email[i], name[i], passw[i]])
-                
-            

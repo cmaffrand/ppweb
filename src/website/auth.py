@@ -19,38 +19,37 @@ def init_db():
     with open(USERS_PATH) as users_csv:
         users_file = csv.reader(users_csv, delimiter=',')
         for row in users_file:
-            new_user = User(email=row[0], 
-                            first_name=row[1], 
+            new_user = User(email=row[0],
+                            first_name=row[1],
                             password=row[2])
             db.session.add(new_user)
             # Init DB Fixture
             with open(FIXTURE_GROUPS_PATH) as fixture_csv:
                 file = csv.reader(fixture_csv, delimiter=',')
                 for fixrow in file:
-                    fixture = Fixture(gameid=int(fixrow[0]), 
-                                      group=fixrow[1], 
-                                      team1=fixrow[2], 
-                                      team2=fixrow[3], 
-                                      date=datetime.strptime(fixrow[4],'%y/%m/%d %H:%M:%S'),
+                    fixture = Fixture(gameid=int(fixrow[0]),
+                                      group=fixrow[1],
+                                      team1=fixrow[2],
+                                      team2=fixrow[3],
+                                      date=datetime.strptime(
+                                          fixrow[4], '%y/%m/%d %H:%M:%S'),
                                       user_id=i)
                     db.session.add(fixture)
             i = i + 1
-        db.session.commit()  
+        db.session.commit()
     return True
 
 # Login page
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    
+
     if not hasattr(login, "var_init_db"):
-        login.var_init_db  = False
-        
+        login.var_init_db = False
+
     if not login.var_init_db:
         init_db()
         login.var_init_db = True
-        
+
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -71,8 +70,6 @@ def login():
                            logo_image=filename_logo)
 
 # Logout page
-
-
 @auth.route('/logout')
 @login_required
 def logout():
@@ -80,8 +77,6 @@ def logout():
     return redirect(url_for('auth.login'))
 
 # Register page
-
-
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method == 'POST':
