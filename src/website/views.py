@@ -98,3 +98,14 @@ def fixture():
                            user=current_user,
                            logo_image=filename_logo,
                            username=current_user.first_name)
+    
+# General Rules webpage
+
+
+@views.route('/rules')
+@login_required
+def rules():
+    return render_template("rules.html",
+                           user=current_user,
+                           logo_image=filename_logo,
+                           username=current_user.first_name)
