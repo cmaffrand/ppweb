@@ -12,13 +12,11 @@ class Prode(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Fixture(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    gameid = db.Column(db.Integer)
-    group = db.Column(db.String(150))
+    gameid = db.Column(db.Integer, primary_key=True)
+    stage = db.Column(db.String(150))
     team1 = db.Column(db.String(150))
     team2 = db.Column(db.String(150))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,4 +25,12 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     score = db.Column(db.Integer, default=0)
     prodes = db.relationship('Prode')
-    fixtures = db.relationship('Fixture')
+    
+class Results(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    gameid = db.Column(db.Integer)
+    group = db.Column(db.String(150))
+    team1 = db.Column(db.String(150))
+    team1goals = db.Column(db.Integer)
+    team2 = db.Column(db.String(150))
+    team2goals = db.Column(db.Integer)
