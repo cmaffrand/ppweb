@@ -2,15 +2,78 @@
 
 <!-- RESULTADOS DETALLADO -->
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h2>Results Details</h2>
-  <p>Main Scoreboard</p>
+  <h2 align="left"> Tabla de posiciones</h2>
+  <div class="col" width="500">
+  <table class="table table-striped table-dark" >
+    <thead>
+      <tr>
+        <th scope="col" width="80">Posicion</th>
+        <th scope="col" width="150">Jugador</th>
+        <th scope="col" width="80">Puntos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for players in users_score %}
+      <tr>
+        <th scope="row">{{ players[0] }}</th>
+        <td>{{ players[1] }}</td>
+        <td>{{ players[2] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
 </div>
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h2>User Pronostics - Game Result - Points</h2>
-  <p>User details</p>
+  <h2 align="left">Pronostricos de partidos</h2>
+  <table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        <th scope="col" width="100" style="text-align:left">Game ID</th>
+        <th scope="col" width="150" style="text-align:left">User</th>
+        <th scope="col" width="550" style="text-align:left">Game Pronostics</th>
+        <th scope="col" width="125" style="text-align:left">Date</th>
+      </tr>
+    </thead>    
+  </table>
+
+  {% for games in prodes %}
+      {% if fixture[games[4]-1][4] < time %}
+        <table class="table table-hover table-dark">
+          <tbody>
+            <tr>              
+              <th style="text-align:left" width="100">
+                <label style="text-align:left" >{{ games[4] }}</label>
+              </th>
+              <td style="text-align:left" width="150">
+                <label style="text-align:left" >{{ games[0] }}</label>
+              </td>
+              <td style="text-align:left" width="225">
+                <label style="text-align:left" >{{ fixture[games[4]-1][2] }}</label>
+              </td>
+              <td style="text-align:center" width="50">
+                <label style="text-align:left" >{{ games[2] }}</label>
+              </td>
+              <td style="text-align:left" width="225">
+                <label style="text-align:left" >{{ fixture[games[4]-1][3] }}</label>
+              </td>
+              <td style="text-align:center" width="50">
+                <label style="text-align:left" >{{ games[3] }}</label>
+              </td>
+              <td style="text-align:left" width="125">
+                <label style="text-align:left" >{{ games[1].strftime('%d/%m %H:%M') }}</label>
+              </td>               
+            </tr>
+          </tbody>
+        </table>
+      {% endif %}
+    {% endfor %}
+
 </div>
+
+<!-- Resultados de los partidos -->
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  
+  <h2 align="left"> Resultados de los partidos</h2>
   <ul class="list-group list-group-flush text-white bg-dark" id="notes">
     <table class="table table-striped table-dark">
       <thead>
