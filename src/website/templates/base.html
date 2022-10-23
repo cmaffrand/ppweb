@@ -39,18 +39,15 @@
         </button>
         <!-- Main Menu-->
         <div class="collapse navbar-collapse" id="navbar">
-          <a class="navbar-brand" href="/">Prode Qatar 2022</a>
+          <a class="navbar-brand" href="/results">Prode Qatar 2022</a>
           <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <!-- Logged IN Menu-->
             <li class="nav-item py-2">
-              <a class="nav-item nav-link" id="home" href="/">Home</a>
+              <a class="nav-item nav-link" id="results" href="/results">Results</a>
             </li>
             <li class="nav-item py-2">
               <a class="nav-item nav-link" id="pronostics" href="/pronostics">Pronostics</a>
-            </li>
-            <li class="nav-item py-2">
-              <a class="nav-item nav-link" id="results" href="/results">Results</a>
             </li>
             <li class="nav-item py-2">
               <a class="nav-item nav-link" id="fixture" href="/fixture">Fixture</a>
@@ -62,20 +59,17 @@
               <a class="nav-item nav-link" id="rules" href="/rules">Rules</a>
             </li>
             <li class="nav-item py-0">
-              <a class="navbar-brand" href="/">
+              <a class="navbar-brand" href="/results">
                 <img src="{{ logo_image }}" alt="" width="45" height="45" />
               </a>
             </li>
             <li class="nav-item py-2">
-              <a class="nav-item nav-link" id="name" href="/">{{ username }}</a>
+              <a class="nav-item nav-link" id="name" href="results">{{ username }}</a>
             </li>
             {% else %}
             <!-- Logged OUT Menu-->
             <li class="nav-item py-2">
               <a class="nav-item nav-link" id="login" href="/login">Login</a>
-            </li>
-            <li class="nav-item py-2">
-              <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
             </li>
             <li class="nav-item py-0">
               <a class="navbar-brand" href="/login">
