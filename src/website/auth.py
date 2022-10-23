@@ -6,11 +6,13 @@ from flask_login import login_user, login_required, logout_user, current_user
 import os
 import csv
 from datetime import datetime
+import requests as req
+from bs4 import BeautifulSoup
 
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 auth = Blueprint('auth', __name__)
-FIXTURE_GROUPS_PATH = 'website/static/info/fixture_groups.csv'
+FIXTURE_PATH = 'website/static/info/full_fixture.csv'
 USERS_PATH = 'website/static/info/users.csv'
 
 def init_db():
@@ -24,7 +26,7 @@ def init_db():
                             password=row[2])
             db.session.add(new_user)
             # Init DB Fixture
-            with open(FIXTURE_GROUPS_PATH) as fixture_csv:
+            with open(FIXTURE_PATH) as fixture_csv:
                 file = csv.reader(fixture_csv, delimiter=',')
                 for fixrow in file:
                     fixture = Fixture(gameid=int(fixrow[0]),
@@ -57,9 +59,8 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
-                flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('views.results'))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -75,36 +76,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-# Register page
-@auth.route('/sign-up', methods=['GET', 'POST'])
-def sign_up():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        first_name = request.form.get('firstName')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
-
-        user = User.query.filter_by(email=email).first()
-        if user:
-            flash('Email already exists.', category='error')
-        elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
-        elif len(first_name) < 2:
-            flash('First name must be greater than 1 character.', category='error')
-        elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
-        elif len(password1) < 7:
-            flash('Password must be at least 7 characters.', category='error')
-        else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'))
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user, remember=True)
-            flash('Account created!', category='success')
-            return redirect(url_for('views.home'))
-
-    return render_template("sign_up.html",
-                           user=current_user,
-                           logo_image=filename_logo)

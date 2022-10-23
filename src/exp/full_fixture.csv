@@ -1,0 +1,64 @@
+1,Group A,Qatar,Ecuador,22/11/20 13:00:00
+2,Group B,England,Iran,22/11/21 10:00:00
+3,Group A,Senegal,Netherlands,22/11/21 13:00:00
+4,Group B,USA,Wales,22/11/21 16:00:00
+5,Group C,Argentina,Saudi Arabia,22/11/22 07:00:00
+6,Group D,Denmark,Tunisia,22/11/22 10:00:00
+7,Group C,Mexico,Poland,22/11/22 13:00:00
+8,Group D,France,Australia,22/11/22 16:00:00
+9,Group F,Morocco,Croatia,22/11/23 07:00:00
+10,Group E,Germany,Japan,22/11/23 10:00:00
+11,Group E,Spain,Costa Rica,22/11/23 13:00:00
+12,Group F,Belgium,Canada,22/11/23 16:00:00
+13,Group G,Switzerland,Cameroon,22/11/24 07:00:00
+14,Group H,Uruguay,South Korea,22/11/24 10:00:00
+15,Group H,Portugal,Ghana,22/11/24 13:00:00
+16,Group G,Brazil,Serbia,22/11/24 16:00:00
+17,Group B,Wales,Iran,22/11/25 07:00:00
+18,Group A,Qatar,Senegal,22/11/25 10:00:00
+19,Group A,Netherlands,Ecuador,22/11/25 13:00:00
+20,Group B,England,USA,22/11/25 16:00:00
+21,Group D,Tunisia,Australia,22/11/26 07:00:00
+22,Group C,Poland,Saudi Arabia,22/11/26 10:00:00
+23,Group D,France,Denmark,22/11/26 13:00:00
+24,Group C,Argentina,Mexico,22/11/26 16:00:00
+25,Group E,Japan,Costa Rica,22/11/27 07:00:00
+26,Group F,Belgium,Morocco,22/11/27 10:00:00
+27,Group F,Croatia,Canada,22/11/27 13:00:00
+28,Group E,Spain,Germany,22/11/27 16:00:00
+29,Group G,Cameroon,Serbia,22/11/28 07:00:00
+30,Group H,South Korea,Ghana,22/11/28 10:00:00
+31,Group G,Brazil,Switzerland,22/11/28 13:00:00
+32,Group H,Portugal,Uruguay,22/11/28 16:00:00
+33,Group A,Ecuador,Senegal,22/11/29 12:00:00
+34,Group A,Netherlands,Qatar,22/11/29 12:00:00
+35,Group B,Iran,USA,22/11/29 16:00:00
+36,Group B,Wales,England,22/11/29 16:00:00
+37,Group D,Australia,Denmark,22/11/30 12:00:00
+38,Group D,Tunisia,France,22/11/30 12:00:00
+39,Group C,Poland,Argentina,22/11/30 16:00:00
+40,Group C,Saudi Arabia,Mexico,22/11/30 16:00:00
+41,Group F,Canada,Morocco,22/12/01 12:00:00
+42,Group F,Croatia,Belgium,22/12/01 12:00:00
+43,Group E,Costa Rica,Germany,22/12/01 16:00:00
+44,Group E,Japan,Spain,22/12/01 16:00:00
+45,Group H,Ghana,Uruguay,22/12/02 12:00:00
+46,Group H,South Korea,Portugal,22/12/02 12:00:00
+47,Group G,Cameroon,Brazil,22/12/02 16:00:00
+48,Group G,Serbia,Switzerland,22/12/02 16:00:00
+49,Round Of 16,Group A Winner,Group B Runner-up,22/12/03 12:00:00
+50,Round Of 16,Group C Winner,Group D Runner-up,22/12/03 16:00:00
+51,Round Of 16,Group D Winner,Group C Runner-up,22/12/04 12:00:00
+52,Round Of 16,Group B Winner,Group A Runner-up,22/12/04 16:00:00
+53,Round Of 16,Group E Winner,Group F Runner-up,22/12/05 12:00:00
+54,Round Of 16,Group G Winner,Group H Runner-up,22/12/05 16:00:00
+55,Round Of 16,Group F Winner,Group E Runner-up,22/12/06 12:00:00
+56,Round Of 16,Group H Winner,Group G Runner-up,22/12/06 16:00:00
+57,Quarter Finals,Winner 1E/2F,Winner 1G/2H,22/12/09 12:00:00
+58,Quarter Finals,Winner 1A/2B,Winner 1C/2D,22/12/09 16:00:00
+59,Quarter Finals,Winner 1F/2E,Winner 1H/2G,22/12/10 12:00:00
+60,Quarter Finals,Winner 1B/2A,Winner 1D/2C,22/12/10 16:00:00
+61,Semi Finals,Winner QF 1,Winner QF 2,22/12/13 16:00:00
+62,Semi Finals,Winner QF 3,Winner QF 4,22/12/14 16:00:00
+63,Third Place Play Off,Loser SF 1,Loser SF 2,22/12/17 12:00:00
+64,Final,Winner SF 1,Winner SF 2,22/12/18 12:00:00

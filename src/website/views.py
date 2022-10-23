@@ -1,51 +1,30 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Note, User, Prode, Fixture
+from .models import User, Prode, Fixture
 from . import db
-import json
+from .table_calc import *
 import os
 from werkzeug.security import generate_password_hash
 import datetime
-import sports
 
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 views = Blueprint('views', __name__)
+link = "https://www.livescores.com/football/world-cup/"
 
 # Home webpage
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/')
 @login_required
 def home():
-
-    if request.method == 'POST':
-        note = request.form.get('note')
-
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-
-    return render_template("home.html",
+    # Get all game results
+    game_results = get_all_games(link,1)
+    # For every user, get the prode score
+    #db.session.query(User).update({User.score: 0})
+    return render_template("results.html",
                            user=current_user,
                            logo_image=filename_logo,
-                           username=current_user.first_name)
-
-# Delete note
-@views.route('/delete-note', methods=['POST'])
-@login_required
-def delete_note():
-    note = json.loads(request.data)
-    noteId = note['noteId']
-    note = Note.query.get(noteId)
-    if note:
-        if note.user_id == current_user.id:
-            db.session.delete(note)
-            db.session.commit()
-
-    return jsonify({})
+                           username=current_user.first_name,
+                           game_results=game_results)
 
 # User Pronostic webpage
 @views.route('/pronostics', methods=['GET', 'POST'])
@@ -70,16 +49,13 @@ def pronostics():
                            logo_image=filename_logo,
                            username=current_user.first_name,
                            time=datetime.datetime.utcnow()-datetime.timedelta(hours=3))
-    # time=datetime.datetime(2022, 11, 25, 10, 1, 0)) ## Out of date test
+                           #time=datetime.datetime(2022, 11, 25, 13, 1, 0)) ## Out of date test
 
-# General Result and Pronostic webpage
+# General Result webpage
 @views.route('/results')
 @login_required
 def results():
-    return render_template("results.html",
-                           user=current_user,
-                           logo_image=filename_logo,
-                           username=current_user.first_name)
+    return home()
 
 # Fixture webpage
 @views.route('/fixture')
