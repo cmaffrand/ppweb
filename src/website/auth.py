@@ -6,8 +6,6 @@ from flask_login import login_user, login_required, logout_user, current_user
 import os
 import csv
 from datetime import datetime
-import requests as req
-from bs4 import BeautifulSoup
 
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
@@ -60,7 +58,7 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
-                return redirect(url_for('views.results'))
+                return redirect(url_for('views.pronostics'))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:

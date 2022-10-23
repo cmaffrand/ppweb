@@ -39,7 +39,7 @@
         </button>
         <!-- Main Menu-->
         <div class="collapse navbar-collapse" id="navbar">
-          <a class="navbar-brand" href="/results">Prode Qatar 2022</a>
+          <a class="navbar-brand" href="/">Prode Qatar 2022</a>
           <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
             {% if user.is_authenticated %}
             <!-- Logged IN Menu-->
@@ -59,12 +59,12 @@
               <a class="nav-item nav-link" id="rules" href="/rules">Rules</a>
             </li>
             <li class="nav-item py-0">
-              <a class="navbar-brand" href="/results">
+              <a class="navbar-brand" href="/">
                 <img src="{{ logo_image }}" alt="" width="45" height="45" />
               </a>
             </li>
             <li class="nav-item py-2">
-              <a class="nav-item nav-link" id="name" href="results">{{ username }}</a>
+              <a class="nav-item nav-link" id="name" href="/">{{ username }}</a>
             </li>
             {% else %}
             <!-- Logged OUT Menu-->
