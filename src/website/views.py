@@ -16,15 +16,7 @@ link = "https://www.livescores.com/football/world-cup/"
 @views.route('/')
 @login_required
 def home():
-    # Get all game results
-    game_results = get_all_games(link,1)
-    # For every user, get the prode score
-    #db.session.query(User).update({User.score: 0})
-    return render_template("results.html",
-                           user=current_user,
-                           logo_image=filename_logo,
-                           username=current_user.first_name,
-                           game_results=game_results)
+    return pronostics()
 
 # User Pronostic webpage
 @views.route('/pronostics', methods=['GET', 'POST'])
@@ -35,14 +27,13 @@ def pronostics():
         team1goals = request.form.get('team1goals')
         team2goals = request.form.get('team2goals')
         gameid = request.form.get('gameid')
+        date = datetime.datetime.utcnow()-datetime.timedelta(hours=3)
 
         new_prode = Prode(team1goals=team1goals, team2goals=team2goals,
-                          gameid=gameid, user_id=current_user.id)
+                          gameid=gameid, date=date, user_id=current_user.id)
         db.session.add(new_prode)
         db.session.commit()
-        flash('Pronostic Added!', category='success')
-
-    print(datetime.datetime.utcnow()-datetime.timedelta(hours=3))
+        #flash('Pronostic Added!', category='success')
 
     return render_template("pronostics.html",
                            user=current_user,
@@ -55,7 +46,16 @@ def pronostics():
 @views.route('/results')
 @login_required
 def results():
-    return home()
+    
+    # Get all game results
+    game_results = get_all_games(link,1)
+    # For every user, get the prode score
+    #db.session.query(User).update({User.score: 0})
+    return render_template("results.html",
+                           user=current_user,
+                           logo_image=filename_logo,
+                           username=current_user.first_name,
+                           game_results=game_results)
 
 # Fixture webpage
 @views.route('/fixture')
