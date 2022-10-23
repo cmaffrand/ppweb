@@ -13,8 +13,8 @@ auth = Blueprint('auth', __name__)
 FIXTURE_PATH = 'website/static/info/full_fixture.csv'
 USERS_PATH = 'website/static/info/users.csv'
 
+
 def init_db():
-    i = 1
     # Initialize database Users
     with open(USERS_PATH) as users_csv:
         users_file = csv.reader(users_csv, delimiter=',')
@@ -23,19 +23,16 @@ def init_db():
                             first_name=row[1],
                             password=row[2])
             db.session.add(new_user)
-            # Init DB Fixture
-            with open(FIXTURE_PATH) as fixture_csv:
-                file = csv.reader(fixture_csv, delimiter=',')
-                for fixrow in file:
-                    fixture = Fixture(gameid=int(fixrow[0]),
-                                      group=fixrow[1],
-                                      team1=fixrow[2],
-                                      team2=fixrow[3],
-                                      date=datetime.strptime(
-                                          fixrow[4], '%y/%m/%d %H:%M:%S'),
-                                      user_id=i)
-                    db.session.add(fixture)
-            i = i + 1
+    # Init DB Fixture
+    with open(FIXTURE_PATH) as fixture_csv:
+        file = csv.reader(fixture_csv, delimiter=',')
+        for fixrow in file:
+            fixture = Fixture(gameid=int(fixrow[0]),
+                              stage=fixrow[1],
+                              team1=fixrow[2],
+                              team2=fixrow[3],
+                              date=datetime.strptime(fixrow[4], '%y/%m/%d %H:%M:%S'))
+            db.session.add(fixture)
         db.session.commit()
     return True
 
