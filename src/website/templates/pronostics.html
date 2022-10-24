@@ -2,7 +2,7 @@
 
 <!-- PRONOSTICAR DETALLADO -->
 <div class="container-fluid p-5 text-white bg-dark rounded-3">
-  <h1 align="lef">Prodes</h1>
+  <h1 align="left">Prodes</h1>
   
     <table class="table table-hover table-dark">
       <thead>
@@ -15,18 +15,18 @@
       </thead>    
     </table>
 
-    {% for games in user.fixtures %}
-      {% if games.date > time %}
+    {% for games in fixture %}
+      {% if games[4] > time %}
         <table class="table table-hover table-dark">
           <tbody>
             <tr>              
                 <th style="text-align:left" width="225">
-                  <label style="text-align:left" >{{ games.gameid }}</label>
+                  <label style="text-align:left" >{{ games[0] }}</label>
                   <form class="form-inline" method="POST">
-                    <input type="hidden" name="gameid" value="{{ games.gameid }}">
+                    <input type="hidden" name="gameid" value="{{ games[0] }}">
                     <div style="text-align:justify" class="col-sm">
                       <div class="row"  style="text-align:right">                        
-                        <label class="my-1 mr-1" for="inlineFormCustomSelectPref">{{ games.team1 }}</label>
+                        <label class="my-1 mr-1" for="inlineFormCustomSelectPref">{{ games[2] }}</label>
                         <div class="col">
                           <select name="team1goals" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
                             <option selected>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
@@ -35,7 +35,7 @@
                         </div>
                       </div>
                       <div class="row" style="text-align:right">
-                        <label class="my-1 mr-1" for="inlineFormCustomSelectPref">{{ games.team2 }}</label>
+                        <label class="my-1 mr-1" for="inlineFormCustomSelectPref">{{ games[3] }}</label>
                         <div class="col">
                           <select name="team2goals" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
                             <option selected>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
@@ -54,12 +54,12 @@
                     <table class="table table-striped table-dark">
                       <tbody>              
                         {% for prodes in user.prodes %}
-                          {% if games.gameid == prodes.gameid %}
+                          {% if games[0] == prodes.gameid %}
                             <tr>
                               <td> Realizado el {{ prodes.date.strftime('%d/%m %H:%M')}} </td>
-                              <td> {{ games.team1 }} </td>
+                              <td> {{ games[2] }} </td>
                               <td> {{ prodes.team1goals }} </td>
-                              <td> {{ games.team2 }} </td>
+                              <td> {{ games[3] }} </td>
                               <td> {{ prodes.team2goals }} </td>
                               <!-- <td>{{ prodes.teamadvance }} </td> -->
                             </tr>
@@ -71,13 +71,13 @@
                 </td>
               <td style="text-align:right" style="vertical-align:middle">
                 {% for prodes in user.prodes %}
-                  {% if games.gameid == prodes.gameid %}
+                  {% if games[0] == prodes.gameid %}
                     <i class="fa fa-thumbs-up" style="color:#1e6316"></i></td>
                     {% break %}
                   {% endif %}
                 {% endfor %}
               </td>
-              <td style="text-align:right" style="vertical-align:middle">{{ games.date.strftime('%d/%m %H') }} Hs.</td>
+              <td style="text-align:right" style="vertical-align:middle">{{ games[4].strftime('%d/%m %H') }} Hs.</td>
               </td>
           </tr>
             
