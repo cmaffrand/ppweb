@@ -32,5 +32,6 @@ class Results(db.Model):
     group = db.Column(db.String(150))
     team1 = db.Column(db.String(150))
     team1goals = db.Column(db.Integer)
-    team2 = db.Column(db.String(150))
     team2goals = db.Column(db.Integer)
+    team2 = db.Column(db.String(150))
+    date = db.Column(db.DateTime(timezone=True), default=func.now())
