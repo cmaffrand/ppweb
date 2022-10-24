@@ -17,11 +17,11 @@
       <tbody>
         {% for games in fixture %}
         <tr>
-          <th scope="row">{{ games.gameid }}</th>
-          <td>{{ games.stage }}</td>
-          <td>{{ games.team1 }}</td>
-          <td>{{ games.team2 }}</td>
-          <td>{{ games.date[5:-13] }} Hs.</td>
+          <th scope="row">{{ games[0] }}</th> <!-- Game ID-->
+          <td>{{ games[1] }}</td> <!-- Stage -->
+          <td>{{ games[2] }}</td> <!-- Home -->
+          <td>{{ games[3] }}</td> <!-- Away -->
+          <td>{{ games[4].strftime('%m/%d %H') }} Hs.</td> <!-- Date -->
         </tr>
         {% endfor %}
       </tbody>
