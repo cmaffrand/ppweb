@@ -13,27 +13,37 @@ auth = Blueprint('auth', __name__)
 FIXTURE_PATH = 'website/static/info/full_fixture.csv'
 USERS_PATH = 'website/static/info/users.csv'
 
-
 def init_db():
-    # Initialize database Users
-    with open(USERS_PATH) as users_csv:
-        users_file = csv.reader(users_csv, delimiter=',')
-        for row in users_file:
-            new_user = User(email=row[0],
-                            first_name=row[1],
-                            password=row[2])
-            db.session.add(new_user)
-    # Init DB Fixture
-    with open(FIXTURE_PATH) as fixture_csv:
-        file = csv.reader(fixture_csv, delimiter=',')
-        for fixrow in file:
-            fixture = Fixture(gameid=int(fixrow[0]),
-                              stage=fixrow[1],
-                              team1=fixrow[2],
-                              team2=fixrow[3],
-                              date=datetime.strptime(fixrow[4], '%y/%m/%d %H:%M:%S'))
-            db.session.add(fixture)
-        db.session.commit()
+    # Get users from database
+    cursor = db.session.execute("SELECT id FROM User ORDER BY id ASC")
+    users_db = cursor.fetchall()
+    if users_db == []:
+        # Initialize database Users
+        with open(USERS_PATH) as users_csv:
+            users_file = csv.reader(users_csv, delimiter=',')
+            for row in users_file:
+                new_user = User(email=row[0],
+                                first_name=row[1],
+                                password=row[2])
+                db.session.add(new_user)
+            try: db.session.commit()
+            except: db.session.rollback()
+    # Get fixtures from database
+    cursor = db.session.execute("SELECT gameid FROM Fixture ORDER BY gameid ASC")
+    fix_db = cursor.fetchall()
+    if fix_db == []:
+        # Init DB Fixture
+        with open(FIXTURE_PATH) as fixture_csv:
+            file = csv.reader(fixture_csv, delimiter=',')
+            for fixrow in file:
+                fixture = Fixture(gameid=int(fixrow[0]),
+                                  stage=fixrow[1],
+                                  team1=fixrow[2],
+                                  team2=fixrow[3],
+                                  date=datetime.strptime(fixrow[4], '%y/%m/%d %H:%M:%S'))
+                db.session.add(fixture)
+            try: db.session.commit()
+            except: db.session.rollback()
     return True
 
 # Login page
