@@ -28,10 +28,10 @@ class User(db.Model, UserMixin):
     
 class Results(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    gameid = db.Column(db.Integer)
-    group = db.Column(db.String(150))
-    team1 = db.Column(db.String(150))
     team1goals = db.Column(db.Integer)
     team2goals = db.Column(db.Integer)
-    team2 = db.Column(db.String(150))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
+    state = db.Column(db.String(150))
+    
+class Linkgames(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    link = db.Column(db.String(1000))

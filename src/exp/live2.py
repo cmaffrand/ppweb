@@ -1,21 +1,10 @@
-
-from datetime import datetime
 import requests as req
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 # Change month to a number
 def month_to_num(month):
     return{
-        'January': '01',
-        'February': '02',
-        'March': '03',
-        'April': '04',
-        'May': '05',
-        'June': '06',
-        'July': '07',
-        'August': '08',
-        'September': '09',
-        'October': '10',
         'November': '11',
         'December': '12',
     }[month]
@@ -45,11 +34,11 @@ def get_stages_links(link):
     # Select all world cup links
     links = [l for l in links if '/world-cup/' in l]
     links = [l for l in links if not '-vs-' in l]
+    links = [l for l in links if not '/world-cup/?' in l]
     # Remove duplicates
     links = list(dict.fromkeys(links))
     # Complete url
-    stage_urls = ['https://www.livescores.com' + l + '?tz=-3&page=1' for l in links]
-    stage_urls = [l for l in stage_urls if not '/world-cup/?' in l]
+    stage_urls = ['https://www.livescores.com' + l + '&page=1' for l in links]
     
     return stage_urls
       
@@ -59,6 +48,25 @@ def get_links_from_all_stages(links):
         all_links += get_games_links_from_stage(l)
         
     return all_links
+
+def order_links_with_csv(links):
+    ordered_links = []
+    # Open csv file
+    with open('full_fixture.csv', 'r') as f:
+        # Order links according to csv file
+        for l in f:
+            # Replace " " with "-"
+            l = l.replace(" ", "-")
+            l = l.split(',')
+            if int(l[0]) <= 48:
+                for link in links:                
+                    if l[2].lower() in link:
+                        if l[3].lower() in link:
+                            ordered_links.append(link)
+    # Append last 16 links
+    ordered_links += links[48:]
+                
+    return ordered_links
 
 def get_game_from_link(link):
     # Get data
@@ -92,3 +100,18 @@ def get_all_games_from_links(links):
         game = []
         
     return games
+
+link = "https://www.livescores.com/football/world-cup/?tz=-3"
+
+links = get_stages_links(link)
+links = get_links_from_all_stages(links)
+ordered_links = order_links_with_csv(links)
+
+games = get_all_games_from_links(ordered_links)
+
+for g in games:
+    print(g)
+    
+
+
+
