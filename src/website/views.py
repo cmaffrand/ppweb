@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import User, Prode, Fixture
+from .models import User, Prode, Fixture, Results, Linkgames
 from . import db
 from .table_calc import *
 import os
@@ -11,7 +11,6 @@ IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 views = Blueprint('views', __name__)
 link = "https://www.livescores.com/football/world-cup/"
-LINK_FILTER = "/world-cup/"
 
 def get_fixture_from_db():
     cursor = db.session.execute("SELECT * FROM Fixture ORDER BY gameid ASC")
@@ -96,15 +95,115 @@ def calc_scores(results):
     scores = [sum(x) for x in scores_by_user]
     return scores
 
-def re_arrange_game_id(results,fixture):
-    for r in results:
-        for f in fixture:
-            if int(r[0]) <= 48 and int(f[0]) <= 48:
-                if f[2] == r[2] and f[3] == r[5]:
-                    r[0] = f[0]
-    # Sort results by gameid
-    results = sorted(results, key=lambda x: x[0])
-    return results
+def get_results_from_db():
+    # Get results from database
+    cursor = db.session.execute("SELECT * FROM Results ORDER BY id ASC")
+    wc_results = cursor.fetchall()
+        
+    game_results = []
+    game = []
+    for r in wc_results:
+        # Get teams from fixture
+        cursor = db.session.execute("SELECT team1, team2, stage FROM Fixture WHERE gameid = :gameid", {"gameid": r[0]})
+        teams = cursor.fetchall()
+        game = [r[0], teams[0][2], teams[0][0], r[1], r[2], teams[0][1], r[3]]
+        game_results.append(game)
+    
+    return game_results
+
+def order_links_with_db(links):        
+    ordered_links = []
+    # Read fixture from database
+    cursor = db.session.execute("SELECT gameid, team1, team2 FROM Fixture ORDER BY gameid ASC")
+    f = cursor.fetchall()
+    for l in f:
+        link = []
+        team1 = l[1].replace(" ", "-").lower()
+        team2 = l[2].replace(" ", "-").lower()
+        if int(l[0]) <= 48:
+            for link in links:
+                if team1 in link and team2 in link:
+                    ordered_links.append(link)
+    # Append last 16 links
+    ordered_links += links[48:]
+                
+    return ordered_links
+
+def general_update_routine(link):
+    links = get_stages_links(link)
+    links = get_links_from_all_stages(links)
+    ordered_links = order_links_with_db(links)
+    
+    # Set Links in database
+    i = 0
+    for l in ordered_links:
+        i += 1
+        # Check if link is already in database
+        cursor = db.session.execute("SELECT * FROM Linkgames WHERE id = :id", {"id": i})
+        link_check = cursor.fetchall()
+        if link_check == []:
+            new_link = Linkgames(id=i, link=l)
+            db.session.add(new_link)
+        else:
+            db.session.execute("Update Linkgames SET link = :link WHERE id = :id", {"link": l, "id": i})
+                       
+    games = get_all_games_from_links(ordered_links)
+    # Update Results in database
+    for g in games:
+        if "?" in g[1][1]:
+            state = "NS"
+        else:
+            state = g[1][4]
+            
+        # Check if game is in database
+        cursor = db.session.execute("SELECT * FROM Results WHERE id = :id", {"id": g[0]})
+        game_check = cursor.fetchall()
+        
+        if game_check == []: 
+            new_result = Results(id=g[0], team1goals=g[1][1], team2goals=g[1][2], state=state)
+            db.session.add(new_result)
+        else:
+            db.session.execute("UPDATE Results SET team1goals = :team1goals, team2goals = :team2goals, state = :state WHERE id = :id", {"team1goals": g[1][1], "team2goals": g[1][2], "id": g[0], "state": state})
+            db.session.execute("UPDATE Fixture SET team1 = :team1, team2 = :team2 WHERE gameid = :gameid", {"team1": g[1][0], "team2": g[1][3], "gameid": g[0]})
+    
+    db.session.commit()
+            
+    return True
+
+def update_result_from_date():
+    # Get Fixture from database
+    cursor = db.session.execute("SELECT gameid, date FROM Fixture ORDER BY gameid ASC")
+    fixture_dates = cursor.fetchall()
+    # Remove last 7 characters from date
+    fixture_dates = [[x[0], x[1][:-7]] for x in fixture_dates]
+    fixture_dates = [[x[0],  datetime.datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S')] for x in fixture_dates]
+    
+    date = datetime.datetime.utcnow()-datetime.timedelta(hours=3)
+    #date = datetime.datetime(2022, 11, 25, 13, 1, 0)
+    #date = datetime.datetime(2022, 12, 2, 16, 45, 0)
+    date_limit = date - datetime.timedelta(hours=3)
+    # Keep only dates from last 3 hours
+    fixture_dates = [x for x in fixture_dates if x[1] < date]
+    fixture_dates = [x for x in fixture_dates if x[1] > date_limit]
+    
+    for games in fixture_dates:
+        # Get link from database
+        cursor = db.session.execute("SELECT link FROM Linkgames WHERE id = :id", {"id": int(games[0])})
+        l = cursor.fetchall()
+        results = get_all_games_from_links(l[0])
+        for r in results:
+            r[0] = games[0]
+        # Update Results in database        
+            if "?" in r[1][1]:
+                state = "NS"
+            else:
+                state = r[1][4] 
+            db.session.execute("UPDATE Results SET team1goals = :team1goals, team2goals = :team2goals, state = :state WHERE id = :id", {"team1goals": r[1][1], "team2goals": r[1][2], "id": r[0], "state": state})
+            db.session.execute("UPDATE Fixture SET team1 = :team1, team2 = :team2 WHERE gameid = :gameid", {"team1": r[1][0], "team2": r[1][3], "gameid": r[0]})
+    
+    db.session.commit()
+        
+    return True
 
 # Home webpage
 @views.route('/')
@@ -127,7 +226,6 @@ def pronostics():
                           gameid=gameid, date=date, user_id=current_user.id)
         db.session.add(new_prode)
         db.session.commit()
-        #flash('Pronostic Added!', category='success')
     
     # Get fixture from db
     fix = get_fixture_from_db() 
@@ -138,28 +236,32 @@ def pronostics():
                            logo_image=filename_logo,
                            username=current_user.first_name,
                            time=datetime.datetime.utcnow()-datetime.timedelta(hours=3))
-                           #time=datetime.datetime(2022, 11, 25, 13, 1, 0)) ## Out of date test
+                           #time=datetime.datetime(2022, 12, 2, 16, 1, 0)) ## Out of date test
 
 # General Result webpage
-@views.route('/results')
+@views.route('/results', methods=['GET', 'POST'])
 @login_required
 def results():
     
     # Get fixture from db
-    fix = get_fixture_from_db()    
+    fix = get_fixture_from_db()
     # Get all users from db
     users = get_users_from_db()
     # Get all prodes from db
-    prod = get_prodes_from_db(users)    
-    # Get all game results
-    game_results = get_all_games(link,True,LINK_FILTER,True)
-    game_results = re_arrange_game_id(game_results,fix)
-    ### Test hadcoded results
-    game_results[0] = [1, 'Group A', 'Qatar', '1', '1', 'Ecuador', 'FT']
-    game_results[1] = [2, 'Group B', 'England', '3', '0', 'Iran', 'FT']
-    game_results[2] = [3, 'Group A', 'Senegal', '2', '2', 'Netherlands', 'FT']
-    game_results[3] = [4, 'Group B', 'USA', '2', '1', 'Wales', 'HT']
-    game_results[4] = [5, 'Group C', 'Argentina', '5', '0', 'Saudi Arabia', '60m']
+    prod = get_prodes_from_db(users) 
+    
+    if request.method == 'POST':
+        general_update_routine(link)
+                
+    try: update_result_from_date()
+    except: general_update_routine(link)
+    game_results = get_results_from_db()    
+    #print(game_results)
+    #game_results[0] = [1, 'Group A', 'Qatar', '1', '1', 'Ecuador', 'FT']
+    #game_results[1] = [2, 'Group B', 'England', '3', '0', 'Iran', 'FT']
+    #game_results[2] = [3, 'Group A', 'Senegal', '2', '2', 'Netherlands', 'FT']
+    #game_results[3] = [4, 'Group B', 'USA', '2', '1', 'Wales', 'HT']
+    #game_results[4] = [5, 'Group C', 'Argentina', '5', '0', 'Saudi Arabia', '60m']
     # Calculate and update Scores
     update_scores(game_results)
     
@@ -175,8 +277,8 @@ def results():
                            username=current_user.first_name,
                            game_results=game_results,
                            users_score=users_score,
-                           #time=datetime.datetime.utcnow()-datetime.timedelta(hours=3))
-                           time=datetime.datetime(2022, 11, 22, 8, 15, 0)) ## Passed games test
+                           time=datetime.datetime.utcnow()-datetime.timedelta(hours=3))
+                           #time=datetime.datetime(2022, 12, 2, 16, 15, 0)) ## Passed games test
 
 # Fixture webpage
 @views.route('/fixture')
