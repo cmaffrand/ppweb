@@ -10,7 +10,7 @@ from datetime import datetime
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 auth = Blueprint('auth', __name__)
-FIXTURE_PATH = 'website/static/info/full_fixture.csv'
+FIXTURE_PATH = 'website/static/info/seriea_fixture.csv'
 USERS_PATH = 'website/static/info/users.csv'
 
 def init_db():

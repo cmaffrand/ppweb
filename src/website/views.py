@@ -10,7 +10,8 @@ import datetime
 IMG_FOLDER = os.path.join('static', 'img')
 filename_logo = os.path.join(IMG_FOLDER, 'layeta_inv.png')
 views = Blueprint('views', __name__)
-link = "https://www.livescores.com/football/world-cup/"
+link1 = 'https://www.livescores.com/football/italy/serie-a/?tz=-3&date=20221112'
+link2 = 'https://www.livescores.com/football/italy/serie-a/?tz=-3&date=20221113'
 
 def get_fixture_from_db():
     cursor = db.session.execute("SELECT * FROM Fixture ORDER BY gameid ASC")
@@ -129,10 +130,10 @@ def order_links_with_db(links):
                 
     return ordered_links
 
-def general_update_routine(link):
-    links = get_stages_links(link)
-    links = get_links_from_all_stages(links)
-    ordered_links = order_links_with_db(links)
+def general_update_routine(link1,link2):    
+    links1 = get_games_links(link1)
+    links2 = get_games_links(link2)
+    ordered_links = (links1 + links2)
     
     # Set Links in database
     i = 0
@@ -148,6 +149,8 @@ def general_update_routine(link):
             db.session.execute("Update Linkgames SET link = :link WHERE id = :id", {"link": l, "id": i})
                        
     games = get_all_games_from_links(ordered_links)
+    for g in games:
+        print(g)
     # Update Results in database
     for g in games:
         if "?" in g[1][1]:
@@ -251,10 +254,9 @@ def results():
     prod = get_prodes_from_db(users) 
     
     if request.method == 'POST':
-        general_update_routine(link)
+        general_update_routine(link1,link2)
                 
-    try: update_result_from_date()
-    except: general_update_routine(link)
+    update_result_from_date()    
     game_results = get_results_from_db()    
     #print(game_results)
     #game_results[0] = [1, 'Group A', 'Qatar', '1', '1', 'Ecuador', 'FT']

@@ -22,15 +22,9 @@ def get_game_from_link(link):
     return game
 
 def get_all_games_from_links(links):
-    game = []
     games = []
-    i = 0
     for l in links:
-        i += 1
-        game.append(i)
-        game.append(get_game_from_link(l))
-        games.append(game)
-        game = []
+        games.append(get_game_from_link(l))
     return games
 
 # Get games links from a stage
@@ -51,8 +45,12 @@ def get_games_links(link):
 def get_fixture_csv(link1, link2):
     links1 = get_games_links(link1)
     links2 = get_games_links(link2)
+    print(links1)
+    print(links2)
     games1 = get_all_games_from_links(links1)
     games2 = get_all_games_from_links(links2)
+    print(games1)
+    print(games2)
     i = 0
     with open('seriea_fixture.csv', 'w') as f:
         for g in games1:
@@ -61,3 +59,8 @@ def get_fixture_csv(link1, link2):
         for g in games2:
             i += 1
             f.write(f"{i},Serie A,{g[0]},{g[3]},{g[4]}\n")
+
+link1 = 'https://www.livescores.com/football/italy/serie-a/?tz=-3&date=20221112'
+link2 = 'https://www.livescores.com/football/italy/serie-a/?tz=-3&date=20221113'
+
+get_fixture_csv(link1,link2)
